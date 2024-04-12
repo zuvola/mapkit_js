@@ -21,7 +21,20 @@ void main() async {
       return false;
     }).whenComplete(() {
       // Creates a map
-      mapkit.Map('map');
+      final map = mapkit.Map('map');
+      map.addEventListener(
+          'region-change-end',
+          (JSAny e) {
+            print(map.center);
+          }.toJS,
+          null);
+      map.addEventListener(
+          'single-tap',
+          (JSAny e) {
+            map.setCenterAnimated(
+                mapkit.Coordinate(37.415.toJS, (-122.048333).toJS), true.toJS);
+          }.toJS,
+          null);
     });
   }.toJS));
 }
