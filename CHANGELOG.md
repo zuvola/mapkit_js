@@ -1,3 +1,7 @@
+## 0.1.0
+- Add all members
+- Create Code Generator
+
 ## 0.0.2
 - Added EventListener support and center Coordinate get and set.
 

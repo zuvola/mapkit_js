@@ -36,13 +36,26 @@ void main() async {
       return false;
     }).whenComplete(() {
       // Creates a map
-      mapkit.Map('map');
+      final map = mapkit.Map('map'.toJS, null);
+      map.addEventListener(
+          'region-change-end',
+          (JSAny e) {
+            print(map.center);
+          }.toJS,
+          null);
+      map.addEventListener(
+          'single-tap',
+          (JSAny e) {
+            map.setCenterAnimated(
+                mapkit.Coordinate(37.415.toJS, (-122.048333).toJS), true);
+          }.toJS,
+          null);
     });
   }.toJS));
 }
 ```
 
-## Build
+## TokenID
 
 build.yamlに次のようにTokenIDを記述しておけば、DartのString.fromEnvironmentで値を取得できるようになります。
 
@@ -57,6 +70,14 @@ global_options:
   const tokenID = String.fromEnvironment('TokenID');
 ```
 
+## Build
+
+apiを自動で生成するツールも作りました。下記コマンドでmapkit_js_api.dartが生成されます。
+
+```dart
+dart tool/main.dart
+```
+
 ## Additional information
 
-現在は地図表示しかできません。もしよろしければ、PRを頂ければ幸いです。
+ほとんどテストしていません。もしよろしければ、PRを頂ければ幸いです。

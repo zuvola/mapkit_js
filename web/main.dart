@@ -21,7 +21,7 @@ void main() async {
       return false;
     }).whenComplete(() {
       // Creates a map
-      final map = mapkit.Map('map');
+      final map = mapkit.Map('map'.toJS, null);
       map.addEventListener(
           'region-change-end',
           (JSAny e) {
@@ -32,7 +32,7 @@ void main() async {
           'single-tap',
           (JSAny e) {
             map.setCenterAnimated(
-                mapkit.Coordinate(37.415.toJS, (-122.048333).toJS), true.toJS);
+                mapkit.Coordinate(37.415.toJS, (-122.048333).toJS), true);
           }.toJS,
           null);
     });

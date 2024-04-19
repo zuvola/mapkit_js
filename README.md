@@ -36,13 +36,26 @@ void main() async {
       return false;
     }).whenComplete(() {
       // Creates a map
-      mapkit.Map('map');
+      final map = mapkit.Map('map'.toJS, null);
+      map.addEventListener(
+          'region-change-end',
+          (JSAny e) {
+            print(map.center);
+          }.toJS,
+          null);
+      map.addEventListener(
+          'single-tap',
+          (JSAny e) {
+            map.setCenterAnimated(
+                mapkit.Coordinate(37.415.toJS, (-122.048333).toJS), true);
+          }.toJS,
+          null);
     });
   }.toJS));
 }
 ```
 
-## Build
+## TokenID
 
 If you put the TokenID in build.yaml as follows, you can get the value with String.fromEnvironment in Dart.
 
@@ -57,6 +70,14 @@ global_options:
   const tokenID = String.fromEnvironment('TokenID');
 ```
 
+## Build
+
+I have also created a tool to automatically generate the api. The following command will generate mapkit_js_api.dart.
+
+```dart
+dart tool/main.dart
+```
+
 ## Additional information
 
-Currently, it can only display a map. If you would like to help us, we would be very happy to receive your PR.
+I have done very little testing. If you would like to help me, I would appreciate it if you could give me a PR.

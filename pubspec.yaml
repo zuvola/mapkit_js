@@ -1,6 +1,6 @@
 name: mapkit_js
 description: Dart implementation of Apple's MapKitJS. Embedding Apple Maps on the Web.
-version: 0.0.2
+version: 0.1.0
 homepage: https://github.com/zuvola/mapkit_js
 
 environment:
@@ -14,3 +14,4 @@ dev_dependencies:
   test: ^1.24.0
   build_runner: ^2.4.9
   build_web_compilers: ^4.0.10
+  http: ^1.2.1
