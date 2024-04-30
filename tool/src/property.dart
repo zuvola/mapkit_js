@@ -24,7 +24,7 @@ class JSProperty {
           (element) => element['text'] == 'boolean',
           orElse: () => {});
       if (boolean.isNotEmpty) {
-        type = 'JSBoolean';
+        type = 'bool';
       }
     }
     if (isAny.isNotEmpty) {
@@ -36,19 +36,31 @@ class JSProperty {
         type = 'String';
         break;
       case 'number':
-        type = 'JSNumber';
+        type = 'double';
         break;
       case 'DOMPoint':
+        type = 'web.DOMPoint';
+        break;
       case 'Element':
+        type = 'web.Element';
+        break;
       case 'Date':
-      case 'Object':
         type = 'JSAny';
+        break;
+      case 'Object':
+        type = 'JSObject';
         break;
       default:
     }
     if (array.isNotEmpty) {
       if (type == 'String') {
         type = 'JSString';
+      }
+      if (type == 'bool') {
+        type = 'JSBoolean';
+      }
+      if (type == 'double') {
+        type = 'JSNumber';
       }
       type = 'JSArray<$type>';
     }

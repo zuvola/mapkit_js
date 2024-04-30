@@ -16,7 +16,9 @@ void main() async {
   await parse(jsroot, jsroot, doc);
 
   final out = StringBuffer();
-  out.write("@JS('mapkit')\nlibrary;\n\nimport 'dart:js_interop';\n\n");
+  out.write(
+      "@JS('mapkit')\nlibrary;\n\nimport 'dart:js_interop';\nimport 'package:web/web.dart' as web;\n\n");
+
   out.write(jsroot.output());
 
   final file = File('./lib/src/mapkit_js_api.dart');

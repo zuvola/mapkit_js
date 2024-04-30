@@ -19,11 +19,27 @@ class JSMethod {
       if (text == 'new') text = '';
       if (text == 'string') text = 'String';
       if (text == 'boolean') text = 'bool';
-      if (text == 'number') text = 'JSNumber';
+      if (text == 'number') {
+        final a = {
+          'cancel',
+          'lookup',
+          'reverseLookup',
+          'search',
+          'autocomplete',
+          'eta',
+          'route',
+          'addColorStopAtIndex'
+        };
+        if (a.contains(name)) {
+          text = 'int';
+        } else {
+          text = 'double';
+        }
+      }
       if (text == 'function') text = 'JSFunction';
-      if (text == 'Object') text = 'JSAny';
-      if (text == 'DOMPoint') text = 'JSAny';
-      if (text == 'Element') text = 'JSAny';
+      if (text == 'Object') text = 'JSObject';
+      if (text == 'DOMPoint') text = 'web.DOMPoint';
+      if (text == 'Element') text = 'web.Element';
       if (optional && text != ' ') {
         text += '?';
         optional = false;
@@ -36,7 +52,7 @@ class JSMethod {
         }
       }
       if (text == '    optional number left)') {
-        text = 'JSNumber? left';
+        text = 'double? left';
       }
       out.write(text);
     }

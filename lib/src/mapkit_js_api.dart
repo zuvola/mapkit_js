@@ -2,6 +2,7 @@
 library;
 
 import 'dart:js_interop';
+import 'package:web/web.dart' as web;
 
 typedef MapTypes = JSString;
 typedef LoadPriorities = JSString;
@@ -50,12 +51,12 @@ external void load(JSAny libraries);
 /// Subscribes a listener function to an event type.
 @JS()
 external void addEventListener(
-    String type, JSFunction listener, JSAny? thisObject);
+    String type, JSFunction listener, JSObject? thisObject);
 
 /// Unsubscribes a listener function from an event type.
 @JS()
 external void removeEventListener(
-    String type, JSFunction listener, JSAny? thisObject);
+    String type, JSFunction listener, JSObject? thisObject);
 
 /// Converts imported GeoJSON data to MapKit JS items.
 @JS()
@@ -84,16 +85,16 @@ extension type Map._(JSObject _) implements JSObject {
   external Map(JSAny parent, MapConstructorOptions? options);
 
   /// A Boolean value that indicates whether map rotation is available.
-  external JSBoolean isRotationAvailable;
+  external bool isRotationAvailable;
 
   /// A Boolean value that determines whether the user may rotate the map using the compass control or a rotate gesture.
-  external JSBoolean isRotationEnabled;
+  external bool isRotationEnabled;
 
   /// A Boolean value that determines whether the user can cause the map to scroll with a pointing device or with gestures on a touchscreen.
-  external JSBoolean isScrollEnabled;
+  external bool isScrollEnabled;
 
   /// A Boolean value that determines whether the user may zoom in and out on the map using pinch gestures or the zoom control.
-  external JSBoolean isZoomEnabled;
+  external bool isZoomEnabled;
 
   /// The map coordinate at the center of the map view.
   external Coordinate center;
@@ -102,7 +103,7 @@ extension type Map._(JSObject _) implements JSObject {
   external CoordinateRegion region;
 
   /// The map’s rotation, in degrees.
-  external JSNumber rotation;
+  external double rotation;
 
   /// The visible area of the map, in map units.
   external MapRect visibleMapRect;
@@ -111,7 +112,7 @@ extension type Map._(JSObject _) implements JSObject {
   external CameraBoundaryDescription cameraBoundary;
 
   /// The altitude of the camera relative to the elevation of the center of the map.
-  external JSNumber cameraDistance;
+  external double cameraDistance;
 
   /// The minimum and maximum distances of the camera from the map center.
   external CameraZoomRange cameraZoomRange;
@@ -120,16 +121,16 @@ extension type Map._(JSObject _) implements JSObject {
   external String showsCompass;
 
   /// A Boolean value that determines whether to display a control that lets users choose the map type.
-  external JSBoolean showsMapTypeControl;
+  external bool showsMapTypeControl;
 
   /// A feature visibility setting that determines when the map displays the map’s scale indicator.
   external String showsScale;
 
   /// A Boolean value that determines whether the user location control is visible.
-  external JSBoolean showsUserLocationControl;
+  external bool showsUserLocationControl;
 
   /// A Boolean value that determines whether to display a control for zooming in and zooming out on a map.
-  external JSBoolean showsZoomControl;
+  external bool showsZoomControl;
 
   /// The map’s color scheme when displaying standard or muted standard map types.
   external String colorScheme;
@@ -147,7 +148,7 @@ extension type Map._(JSObject _) implements JSObject {
   external PointOfInterestFilter pointOfInterestFilter;
 
   /// A Boolean value that determines whether the map displays points of interest.
-  external JSBoolean showsPointsOfInterest;
+  external bool showsPointsOfInterest;
 
   /// The CSS color that MapKit JS uses for user interface controls on the map.
   external String tintColor;
@@ -168,16 +169,16 @@ extension type Map._(JSObject _) implements JSObject {
   external JSArray<TileOverlay> tileOverlays;
 
   /// A Boolean value that determines whether to show the user’s location on the map.
-  external JSBoolean showsUserLocation;
+  external bool showsUserLocation;
 
   /// A Boolean value that determines whether to center the map on the user’s location.
-  external JSBoolean tracksUserLocation;
+  external bool tracksUserLocation;
 
   /// An annotation that indicates the user’s location on the map.
   external Annotation userLocationAnnotation;
 
   /// The map’s DOM element.
-  external JSAny element;
+  external web.Element element;
 
   /// An array of map features that users can select from the map.
   external JSArray<MapFeatureType> selectableMapFeatures;
@@ -187,11 +188,11 @@ extension type Map._(JSObject _) implements JSObject {
 
   /// Adds an event listener to handle events that user interactions and the framework trigger.
   external void addEventListener(
-      String type, JSFunction listener, JSAny? thisObject);
+      String type, JSFunction listener, JSObject? thisObject);
 
   /// Removes an event listener.
   external void removeEventListener(
-      String type, JSFunction listener, JSAny? thisObject);
+      String type, JSFunction listener, JSObject? thisObject);
 
   /// Centers the map to the provided coordinate, with optional animation.
   external Map setCenterAnimated(Coordinate coordinate, bool? animate);
@@ -200,7 +201,7 @@ extension type Map._(JSObject _) implements JSObject {
   external Map setRegionAnimated(CoordinateRegion region, bool? animate);
 
   /// Changes the map’s rotation setting to the number of specified degrees.
-  external Map setRotationAnimated(JSNumber degrees, bool? animate);
+  external Map setRotationAnimated(double degrees, bool? animate);
 
   /// Changes the map’s visible map rectangle to the specified map rectangle.
   external Map setVisibleMapRectAnimated(MapRect mapRect, bool? animate);
@@ -209,7 +210,7 @@ extension type Map._(JSObject _) implements JSObject {
   external Map setCameraBoundaryAnimated(JSAny mapRect, bool? animate);
 
   /// Changes the map’s camera distance with an animated transition.
-  external Map setCameraDistanceAnimated(JSNumber distance, bool? animate);
+  external Map setCameraDistanceAnimated(double distance, bool? animate);
 
   /// Changes the map’s camera zoom range with an animated transition.
   external Map setCameraZoomRangeAnimated(
@@ -238,7 +239,7 @@ extension type Map._(JSObject _) implements JSObject {
       JSArray<Annotation> annotations);
 
   /// Returns an array of overlays at a given point on the webpage.
-  external JSArray<Overlay> overlaysAtPoint(JSAny point);
+  external JSArray<Overlay> overlaysAtPoint(web.DOMPoint point);
 
   /// Adds an overlay to the map.
   external Overlay addOverlay(Overlay overlay);
@@ -253,7 +254,7 @@ extension type Map._(JSObject _) implements JSObject {
   external JSArray<Overlay> removeOverlays(JSArray<Overlay> overlays);
 
   /// Returns the topmost overlay at a given point on the webpage.
-  external Overlay topOverlayAtPoint(JSAny point);
+  external Overlay topOverlayAtPoint(web.DOMPoint point);
 
   /// Adds a collection of annotations, overlays, or other item collections to the map.
   external JSAny addItems(JSAny items);
@@ -276,10 +277,10 @@ extension type Map._(JSObject _) implements JSObject {
       JSArray<TileOverlay> tileOverlays);
 
   /// Converts a coordinate on the map to a point in the page’s coordinate system.
-  external JSAny convertCoordinateToPointOnPage(Coordinate coordinate);
+  external web.DOMPoint convertCoordinateToPointOnPage(Coordinate coordinate);
 
   /// Converts a point in page coordinates to the corresponding map coordinate.
-  external Coordinate convertPointOnPageToCoordinate(JSAny point);
+  external Coordinate convertPointOnPageToCoordinate(web.DOMPoint point);
 
   /// Removes the map’s element from the DOM and releases internal references to the map to free up memory.
   external void destroy();
@@ -295,27 +296,27 @@ extension type MapConstructorOptions._(JSObject _) implements JSObject {
       {MapRect visibleMapRect,
       CoordinateRegion region,
       Coordinate center,
-      JSNumber rotation,
+      double rotation,
       String tintColor,
       String colorScheme,
       String mapType,
       Padding padding,
-      JSBoolean showsMapTypeControl,
-      JSBoolean isRotationEnabled,
+      bool showsMapTypeControl,
+      bool isRotationEnabled,
       String showsCompass,
-      JSBoolean isZoomEnabled,
-      JSBoolean showsZoomControl,
-      JSBoolean isScrollEnabled,
+      bool isZoomEnabled,
+      bool showsZoomControl,
+      bool isScrollEnabled,
       String showsScale,
       JSArray<Annotation> annotations,
       Annotation selectedAnnotation,
       JSArray<Overlay> overlays,
       Overlay selectedOverlay,
-      JSBoolean showsPointsOfInterest,
+      bool showsPointsOfInterest,
       PointOfInterestFilter pointOfInterestFilter,
-      JSBoolean showsUserLocation,
-      JSBoolean tracksUserLocation,
-      JSBoolean showsUserLocationControl,
+      bool showsUserLocation,
+      bool tracksUserLocation,
+      bool showsUserLocationControl,
       JSAny loadPriority,
       JSFunction annotationForCluster});
 
@@ -329,7 +330,7 @@ extension type MapConstructorOptions._(JSObject _) implements JSObject {
   external Coordinate center;
 
   /// The map’s rotation, in degrees.
-  external JSNumber rotation;
+  external double rotation;
 
   /// The CSS color that MapKit JS uses for the user interface controls on the map.
   external String tintColor;
@@ -344,22 +345,22 @@ extension type MapConstructorOptions._(JSObject _) implements JSObject {
   external Padding padding;
 
   /// A Boolean value that determines whether to display a control that lets users choose the map type.
-  external JSBoolean showsMapTypeControl;
+  external bool showsMapTypeControl;
 
   /// A Boolean value that determines whether the user may rotate the map using the compass control or a rotate gesture.
-  external JSBoolean isRotationEnabled;
+  external bool isRotationEnabled;
 
   /// A feature visibility setting that determines when the compass is visible.
   external String showsCompass;
 
   /// A Boolean value that determines whether the user may zoom in and out on the map using pinch gestures or the zoom control.
-  external JSBoolean isZoomEnabled;
+  external bool isZoomEnabled;
 
   /// A Boolean value that determines whether to display a control for zooming in and zooming out on a map.
-  external JSBoolean showsZoomControl;
+  external bool showsZoomControl;
 
   /// A Boolean value that determines whether the user may scroll the map with a pointing device or gestures on a touchscreen.
-  external JSBoolean isScrollEnabled;
+  external bool isScrollEnabled;
 
   /// A feature visibility setting that allows you to determine when to display the map’s scale.
   external String showsScale;
@@ -377,19 +378,19 @@ extension type MapConstructorOptions._(JSObject _) implements JSObject {
   external Overlay selectedOverlay;
 
   /// A Boolean value that determines whether the map displays points of interest.
-  external JSBoolean showsPointsOfInterest;
+  external bool showsPointsOfInterest;
 
   /// The filter that determines the points of interest that display on the map.
   external PointOfInterestFilter pointOfInterestFilter;
 
   /// A Boolean value that determines whether to show the user’s location on the map.
-  external JSBoolean showsUserLocation;
+  external bool showsUserLocation;
 
   /// A Boolean value that determines whether to center the map on the user’s location.
-  external JSBoolean tracksUserLocation;
+  external bool tracksUserLocation;
 
   /// A Boolean value that determines whether the user location control is visible.
-  external JSBoolean showsUserLocationControl;
+  external bool showsUserLocationControl;
 
   /// A value MapKit JS uses for prioritizing the visibility of specific map features before the underlaying map tiles.
   external JSAny loadPriority;
@@ -413,22 +414,22 @@ extension type CameraBoundaryDescription._(JSObject _) implements JSObject {
 /// An object literal containing minimum and maximum camera distance in meters.
 extension type CameraZoomRangeLiteral._(JSObject _) implements JSObject {
   external CameraZoomRangeLiteral(
-      {JSNumber minCameraDistance, JSNumber maxCameraDistance});
+      {double minCameraDistance, double maxCameraDistance});
 
   /// The minimum allowed distance of the camera from the center of the map in meters.
-  external JSNumber minCameraDistance;
+  external double minCameraDistance;
 
   /// The maximum allowed distance of the camera from the center of the map in meters.
-  external JSNumber maxCameraDistance;
+  external double maxCameraDistance;
 }
 
 /// Options that determine the map parameters to use when showing items.
 extension type MapShowItemsOptions._(JSObject _) implements JSObject {
   external MapShowItemsOptions(
-      {JSBoolean animate, CoordinateSpan minimumSpan, Padding padding});
+      {bool animate, CoordinateSpan minimumSpan, Padding padding});
 
   /// A Boolean value that determines whether the map animates as the map region changes to show the items.
-  external JSBoolean animate;
+  external bool animate;
 
   /// The minimum longitudinal and latitudinal span the map displays.
   external CoordinateSpan minimumSpan;
@@ -447,10 +448,10 @@ extension type Annotation._(JSObject _) implements JSObject {
   external Map map;
 
   /// The annotation’s element in the DOM.
-  external JSAny element;
+  external web.Element element;
 
   /// Data that you define that’s specific to an annotation.
-  external JSAny data;
+  external JSObject data;
 
   /// The text to display in the annotation’s callout.
   external String title;
@@ -465,43 +466,43 @@ extension type Annotation._(JSObject _) implements JSObject {
   external Coordinate coordinate;
 
   /// An offset that changes the annotation’s default anchor point.
-  external JSAny anchorOffset;
+  external web.DOMPoint anchorOffset;
 
   /// A CSS animation that runs when the annotation appears on the map.
   external String appearanceAnimation;
 
   /// A numeric hint that the map uses to prioritize how it displays annotations.
-  external JSNumber displayPriority;
+  external double displayPriority;
 
   /// Spacing to add around the annotation when showing items.
   external Padding padding;
 
   /// The desired dimensions of the annotation, in CSS pixels.
-  external JSAny size;
+  external JSObject size;
 
   /// A Boolean value that determines whether the annotation is visible or hidden.
-  external JSBoolean visible;
+  external bool visible;
 
   /// A Boolean value that determines whether the framework animates the annotation.
-  external JSBoolean animates;
+  external bool animates;
 
   /// A Boolean value that determines whether the user can drag the annotation.
-  external JSBoolean draggable;
+  external bool draggable;
 
   /// A Boolean value that indicates whether the map shows the annotation in a selected state.
-  external JSBoolean selected;
+  external bool selected;
 
   /// A Boolean value that determines whether the annotation responds to user interaction.
-  external JSBoolean enabled;
+  external bool enabled;
 
   /// A delegate that enables you to customize the annotation’s callout.
   external AnnotationCalloutDelegate callout;
 
   /// A Boolean value that determines whether the map shows an annotation’s callout.
-  external JSBoolean calloutEnabled;
+  external bool calloutEnabled;
 
   /// An offset that changes the annotation callout’s default placement.
-  external JSAny calloutOffset;
+  external web.DOMPoint calloutOffset;
 
   /// An array of annotations that the framework groups together in a cluster.
   external JSArray<Annotation> memberAnnotations;
@@ -514,39 +515,39 @@ extension type Annotation._(JSObject _) implements JSObject {
 
   /// Adds an event listener to handle events that user interactions with annotations trigger.
   external void addEventListener(
-      String type, JSFunction listener, JSAny? thisObject);
+      String type, JSFunction listener, JSObject? thisObject);
 
   /// Removes an event listener.
   external void removeEventListener(
-      String type, JSFunction listener, JSAny? thisObject);
+      String type, JSFunction listener, JSObject? thisObject);
 }
 
 /// An object that contains options for creating annotation features.
 extension type AnnotationConstructorOptions._(JSObject _) implements JSObject {
   external AnnotationConstructorOptions(
-      {JSAny data,
+      {JSObject data,
       String title,
       String subtitle,
       String accessibilityLabel,
-      JSAny anchorOffset,
+      web.DOMPoint anchorOffset,
       String appearanceAnimation,
-      JSNumber displayPriority,
+      double displayPriority,
       Padding padding,
-      JSAny size,
-      JSBoolean visible,
-      JSBoolean animates,
-      JSBoolean draggable,
-      JSBoolean enabled,
-      JSBoolean selected,
+      JSObject size,
+      bool visible,
+      bool animates,
+      bool draggable,
+      bool enabled,
+      bool selected,
       Place place,
       AnnotationCalloutDelegate callout,
-      JSBoolean calloutEnabled,
-      JSAny calloutOffset,
+      bool calloutEnabled,
+      web.DOMPoint calloutOffset,
       String clusteringIdentifier,
       String collisionMode});
 
   /// Data that you define and assign to the annotation.
-  external JSAny data;
+  external JSObject data;
 
   /// The text to display in the annotation’s callout.
   external String title;
@@ -558,34 +559,34 @@ extension type AnnotationConstructorOptions._(JSObject _) implements JSObject {
   external String accessibilityLabel;
 
   /// The offset, in CSS pixels, of the element from the bottom center.
-  external JSAny anchorOffset;
+  external web.DOMPoint anchorOffset;
 
   /// A CSS animation that runs when the annotation appears on the map.
   external String appearanceAnimation;
 
   /// A hint the map uses to prioritize displaying the annotation.
-  external JSNumber displayPriority;
+  external double displayPriority;
 
   /// Spacing to add around the annotation when showing items.
   external Padding padding;
 
   /// The desired dimensions of the annotation, in CSS pixels.
-  external JSAny size;
+  external JSObject size;
 
   /// A Boolean value that determines whether the annotation is visible or hidden.
-  external JSBoolean visible;
+  external bool visible;
 
   /// A Boolean value that determines whether the map animates the annotation.
-  external JSBoolean animates;
+  external bool animates;
 
   /// A Boolean value that determines whether the user can drag the annotation.
-  external JSBoolean draggable;
+  external bool draggable;
 
   /// A Boolean value that determines whether the annotation responds to user interaction.
-  external JSBoolean enabled;
+  external bool enabled;
 
   /// A Boolean value that determines whether the map displays the annotation in a selected state.
-  external JSBoolean selected;
+  external bool selected;
 
   /// An object that allows a custom annotation to potentially supecede a point of interest at the same map coordinates.
   external Place place;
@@ -594,10 +595,10 @@ extension type AnnotationConstructorOptions._(JSObject _) implements JSObject {
   external AnnotationCalloutDelegate callout;
 
   /// A Boolean value that determines whether the map shows a callout.
-  external JSBoolean calloutEnabled;
+  external bool calloutEnabled;
 
   /// The offset, in CSS pixels, of a callout from the top center of the element.
-  external JSAny calloutOffset;
+  external web.DOMPoint calloutOffset;
 
   /// An identifier for grouping annotations into the same cluster.
   external String clusteringIdentifier;
@@ -619,8 +620,8 @@ extension type AnnotationCalloutDelegate._(JSObject _) implements JSObject {
       JSFunction calloutRightAccessoryForAnnotation});
 
   /// Returns a point determining the callout's anchor offset.
-  external JSAny calloutAnchorOffsetForAnnotation(
-      Annotation annotation, JSAny size);
+  external web.DOMPoint calloutAnchorOffsetForAnnotation(
+      Annotation annotation, JSObject size);
 
   /// Determines whether the callout appears for an annotation.
   external bool calloutShouldAppearForAnnotation(Annotation annotation);
@@ -633,16 +634,17 @@ extension type AnnotationCalloutDelegate._(JSObject _) implements JSObject {
       Annotation annotation);
 
   /// Returns custom content for the callout bubble.
-  external JSAny calloutContentForAnnotation(Annotation annotation);
+  external web.Element calloutContentForAnnotation(Annotation annotation);
 
   /// Returns an element representing a custom callout.
-  external JSAny calloutElementForAnnotation(Annotation annotation);
+  external web.Element calloutElementForAnnotation(Annotation annotation);
 
   /// Returns an element to use as a custom accessory on the left side of the callout content area.
-  external JSAny calloutLeftAccessoryForAnnotation(Annotation annotation);
+  external web.Element calloutLeftAccessoryForAnnotation(Annotation annotation);
 
   /// Returns an element to use as a custom accessory on the right side of the callout content area.
-  external JSAny calloutRightAccessoryForAnnotation(Annotation annotation);
+  external web.Element calloutRightAccessoryForAnnotation(
+      Annotation annotation);
 }
 
 /// A customized annotation with image resources that you provide.
@@ -658,10 +660,10 @@ extension type ImageAnnotation._(JSObject _) implements JSObject {
 /// An object containing options for creating an image annotation.
 extension type ImageAnnotationConstructorOptions._(JSObject _)
     implements JSObject {
-  external ImageAnnotationConstructorOptions({JSAny url});
+  external ImageAnnotationConstructorOptions({JSObject url});
 
   /// An object containing URLs for the image assets in multiple resolutions.
-  external JSAny url;
+  external JSObject url;
 }
 
 /// An annotation that displays a balloon-shaped marker at the designated location.
@@ -699,8 +701,8 @@ extension type MarkerAnnotationConstructorOptions._(JSObject _)
       {String color,
       String glyphColor,
       String glyphText,
-      JSAny glyphImage,
-      JSAny selectedGlyphImage,
+      JSObject glyphImage,
+      JSObject selectedGlyphImage,
       String subtitleVisibility,
       String titleVisibility});
 
@@ -714,10 +716,10 @@ extension type MarkerAnnotationConstructorOptions._(JSObject _)
   external String glyphText;
 
   /// The image to display in the marker balloon.
-  external JSAny glyphImage;
+  external JSObject glyphImage;
 
   /// The image to display in the balloon when the user selects the marker.
-  external JSAny selectedGlyphImage;
+  external JSObject selectedGlyphImage;
 
   /// A value that determines the behavior of the subtitle’s visibility.
   external String subtitleVisibility;
@@ -729,26 +731,26 @@ extension type MarkerAnnotationConstructorOptions._(JSObject _)
 /// An abstract base object that defines the methods and attributes for map overlays.
 extension type Overlay._(JSObject _) implements JSObject {
   external Overlay(
-      {JSAny data,
-      JSBoolean visible,
-      JSBoolean enabled,
-      JSBoolean selected,
+      {JSObject data,
+      bool visible,
+      bool enabled,
+      bool selected,
       Style style,
       Map map,
       JSFunction addEventListener,
       JSFunction removeEventListener});
 
   /// Custom data to associate with the overlay.
-  external JSAny data;
+  external JSObject data;
 
   /// A Boolean value that determines whether an overlay is visible.
-  external JSBoolean visible;
+  external bool visible;
 
   /// A Boolean value that determines whether the overlay responds to user interaction.
-  external JSBoolean enabled;
+  external bool enabled;
 
   /// A Boolean value that indicates whether the user selects the overlay.
-  external JSBoolean selected;
+  external bool selected;
 
   /// Style properties to apply to the overlay.
   external Style style;
@@ -758,11 +760,11 @@ extension type Overlay._(JSObject _) implements JSObject {
 
   /// Starts listening for the specified type of event.
   external void addEventListener(
-      String type, JSFunction listener, JSAny? thisObject);
+      String type, JSFunction listener, JSObject? thisObject);
 
   /// Stops listening for the specified type of event.
   external void removeEventListener(
-      String type, JSFunction listener, JSAny? thisObject);
+      String type, JSFunction listener, JSObject? thisObject);
 }
 
 /// A set of observable attributes for overlays, including the color and opacity of strokes and fills, and line styles.
@@ -774,7 +776,7 @@ extension type Style._(JSObject _) implements JSObject {
   external String fillColor;
 
   /// The opacity of the fill color.
-  external JSNumber fillOpacity;
+  external double fillOpacity;
 
   /// A rule for determining whether a point is inside or outside a polygon.
   external String fillRule;
@@ -786,13 +788,13 @@ extension type Style._(JSObject _) implements JSObject {
   external JSArray<JSNumber> lineDash;
 
   /// The number of CSS pixels to use as an offset when drawing a line’s dash pattern.
-  external JSNumber lineDashOffset;
+  external double lineDashOffset;
 
   /// The corner style to apply when joining line segments.
   external String lineJoin;
 
   /// The width of a line’s stroke, in CSS pixels.
-  external JSNumber lineWidth;
+  external double lineWidth;
 
   /// The gradient to apply along the line.
   external LineGradient lineGradient;
@@ -801,37 +803,37 @@ extension type Style._(JSObject _) implements JSObject {
   external String strokeColor;
 
   /// The opacity of the stroke color.
-  external JSNumber strokeOpacity;
+  external double strokeOpacity;
 
   /// The unit distance along the line where a stroke begins.
-  external JSNumber strokeStart;
+  external double strokeStart;
 
   /// The unit distance along the line where a stroke ends.
-  external JSNumber strokeEnd;
+  external double strokeEnd;
 }
 
 /// Initial values of options for applying style to overlays.
 extension type StyleConstructorOptions._(JSObject _) implements JSObject {
   external StyleConstructorOptions(
       {String fillColor,
-      JSNumber fillOpacity,
+      double fillOpacity,
       String fillRule,
       String lineCap,
       JSArray<JSNumber> lineDash,
-      JSNumber lineDashOffset,
+      double lineDashOffset,
       String lineJoin,
-      JSNumber lineWidth,
+      double lineWidth,
       String strokeColor,
-      JSNumber strokeOpacity,
-      JSNumber strokeStart,
-      JSNumber strokeEnd,
+      double strokeOpacity,
+      double strokeStart,
+      double strokeEnd,
       LineGradient lineGradient});
 
   /// The fill color of a shape.
   external String fillColor;
 
   /// The opacity of the fill color.
-  external JSNumber fillOpacity;
+  external double fillOpacity;
 
   /// A rule for determining whether a point is inside or outside a polygon.
   external String fillRule;
@@ -843,25 +845,25 @@ extension type StyleConstructorOptions._(JSObject _) implements JSObject {
   external JSArray<JSNumber> lineDash;
 
   /// The number of CSS pixels to use as the offset when drawing a line’s dash pattern.
-  external JSNumber lineDashOffset;
+  external double lineDashOffset;
 
   /// The style to use when drawing joins between line segments.
   external String lineJoin;
 
   /// The width of a line’s stroke, in CSS pixels.
-  external JSNumber lineWidth;
+  external double lineWidth;
 
   /// The stroke color of a line.
   external String strokeColor;
 
   /// The opacity of the stroke color.
-  external JSNumber strokeOpacity;
+  external double strokeOpacity;
 
   /// The unit distance along the line where a stroke begins.
-  external JSNumber strokeStart;
+  external double strokeStart;
 
   /// The unit distance along the line where a stroke ends.
-  external JSNumber strokeEnd;
+  external double strokeEnd;
 
   /// The gradient to apply along the line.
   external LineGradient lineGradient;
@@ -870,26 +872,26 @@ extension type StyleConstructorOptions._(JSObject _) implements JSObject {
 /// A line that displays with a gradient along the length of the line.
 extension type LineGradient._(JSObject _) implements JSObject {
   /// Creates a style that renders a gradient along the length of a line.
-  external LineGradient(JSAny? options);
+  external LineGradient(JSObject? options);
 
   /// Adds a color transition point to the gradient.
-  external void addColorStop(JSNumber offset, String color);
+  external void addColorStop(double offset, String color);
 
   /// Adds a color transition at the index point in the list of points within a polyline.
-  external void addColorStopAtIndex(JSNumber index, String color);
+  external void addColorStopAtIndex(int index, String color);
 }
 
 /// A circular overlay with a configurable radius that centers on a specific geographic coordinate.
 extension type CircleOverlay._(JSObject _) implements JSObject {
   /// Creates a circle overlay with a center coordinate, radius, and style options.
   external CircleOverlay(
-      Coordinate coordinate, JSNumber radius, StylesOverlayOptions? options);
+      Coordinate coordinate, double radius, StylesOverlayOptions? options);
 
   /// The coordinate of the circle overlay’s center.
   external Coordinate coordinate;
 
   /// The circle overlay’s radius, in meters.
-  external JSNumber radius;
+  external double radius;
 }
 
 /// An observable set of style attributes for an overlay.
@@ -923,19 +925,19 @@ extension type PolygonOverlay._(JSObject _) implements JSObject {
 /// A dictionary of options that determines an overlay’s data, and indicates whether it’s visible, in an enabled state, and in a selected state.
 extension type OverlayOptions._(JSObject _) implements JSObject {
   external OverlayOptions(
-      {JSAny data, JSBoolean enabled, JSBoolean selected, JSBoolean visible});
+      {JSObject data, bool enabled, bool selected, bool visible});
 
   /// Custom data to associate with the overlay.
-  external JSAny data;
+  external JSObject data;
 
   /// A Boolean value that determines whether the overlay responds to user interaction.
-  external JSBoolean enabled;
+  external bool enabled;
 
   /// A Boolean value that indicates whether the overlay is in a selected state.
-  external JSBoolean selected;
+  external bool selected;
 
   /// A Boolean value that determines if an overlay is visible.
-  external JSBoolean visible;
+  external bool visible;
 }
 
 /// An overlay that covers an area of the map with bitmapped tiles.
@@ -948,24 +950,24 @@ extension type TileOverlay._(JSObject _) implements JSObject {
   external JSAny urlTemplate;
 
   /// A dictionary of custom properties to use with the URL template.
-  external JSAny data;
+  external JSObject data;
 
   /// A number that indicates a tile’s opacity.
-  external JSNumber opacity;
+  external double opacity;
 
   /// The maximum zoom level for a tile overlay.
-  external JSNumber maximumZ;
+  external double maximumZ;
 
   /// The minimum zoom level for a tile overlay.
-  external JSNumber minimumZ;
+  external double minimumZ;
 
   /// Listens for events of the specified type.
   external void addEventListener(
-      String type, JSFunction listener, JSAny? thisObject);
+      String type, JSFunction listener, JSObject? thisObject);
 
   /// Stops listening for events of the specified type.
   external void removeEventListener(
-      String type, JSFunction listener, JSAny? thisObject);
+      String type, JSFunction listener, JSObject? thisObject);
 
   /// Reloads the tile overlay for the displayed map region with the latest data values.
   external void reload();
@@ -974,19 +976,19 @@ extension type TileOverlay._(JSObject _) implements JSObject {
 /// Attributes for initializing a tile overlay, including minimum and maximum zoom, opacity, and custom data.
 extension type TileOverlayConstructorOptions._(JSObject _) implements JSObject {
   external TileOverlayConstructorOptions(
-      {JSAny data, JSNumber maximumZ, JSNumber minimumZ, JSNumber opacity});
+      {JSObject data, double maximumZ, double minimumZ, double opacity});
 
   /// Custom data for populating the URL template.
-  external JSAny data;
+  external JSObject data;
 
   /// The maximum zoom level of the overlay.
-  external JSNumber maximumZ;
+  external double maximumZ;
 
   /// The minimum zoom level of the overlay.
-  external JSNumber minimumZ;
+  external double minimumZ;
 
   /// The opacity level of the overlay.
-  external JSNumber opacity;
+  external double opacity;
 }
 
 /// A geocoder that converts human-readable addresses to geographic coordinates, and vice versa.
@@ -995,30 +997,29 @@ extension type Geocoder._(JSObject _) implements JSObject {
   external Geocoder(GeocoderConstructorOptions? options);
 
   /// A Boolean value that indicates whether the geocoder returns results near the user’s location.
-  external JSBoolean getsUserLocation;
+  external bool getsUserLocation;
 
   /// A language ID that determines the language to use for displaying addresses.
   external String language;
 
   /// Converts an address to geographic coordinates.
-  external JSNumber lookup(
+  external int lookup(
       String place, JSFunction callback, GeocoderLookupOptions? options);
 
   /// Converts a geographic coordinate to an address.
-  external JSNumber reverseLookup(Coordinate coordinate, JSFunction callback,
+  external int reverseLookup(Coordinate coordinate, JSFunction callback,
       GeocoderReverseLookupOptions? options);
 
   /// Cancels the pending lookup or reverse lookup using its request ID.
-  external bool cancel(JSNumber id);
+  external bool cancel(int id);
 }
 
 /// Initialization options for geocoder objects.
 extension type GeocoderConstructorOptions._(JSObject _) implements JSObject {
-  external GeocoderConstructorOptions(
-      {JSBoolean getsUserLocation, String language});
+  external GeocoderConstructorOptions({bool getsUserLocation, String language});
 
   /// An initial Boolean value that indicates whether the geocoder returns results near the user’s location.
-  external JSBoolean getsUserLocation;
+  external bool getsUserLocation;
 
   /// An initial value for the language ID, which determines the language to use for displaying addresses.
   external String language;
@@ -1067,34 +1068,33 @@ extension type Search._(JSObject _) implements JSObject {
   external Search(SearchConstructorOptions? options);
 
   /// Retrieves the results of a search query.
-  external JSNumber search(JSAny query, JSAny callback, SearchOptions? options);
+  external int search(JSAny query, JSAny callback, SearchOptions? options);
 
   /// Retrieves a list of autocomplete results for the specified search query.
-  external JSNumber autocomplete(
-      JSAny callback, SearchAutoCompleteOptions? options);
+  external int autocomplete(JSAny callback, SearchAutoCompleteOptions? options);
 
   /// Cancels a search request using its request ID.
-  external bool cancel(JSNumber id);
+  external bool cancel(int id);
 }
 
 /// Options you provide when you create a search object.
 extension type SearchConstructorOptions._(JSObject _) implements JSObject {
   external SearchConstructorOptions(
       {Coordinate coordinate,
-      JSBoolean getsUserLocation,
+      bool getsUserLocation,
       String language,
       CoordinateRegion region,
-      JSBoolean includeQueries,
-      JSBoolean includeAddresses,
+      bool includeQueries,
+      bool includeAddresses,
       String limitToCountries,
-      JSBoolean includePointsOfInterest,
+      bool includePointsOfInterest,
       PointOfInterestFilter pointOfInterestFilter});
 
   /// A map coordinate that provides a hint for the geographic area to search.
   external Coordinate coordinate;
 
   /// A Boolean value that indicates whether to limit the search results to the user’s location, according to the web browser.
-  external JSBoolean getsUserLocation;
+  external bool getsUserLocation;
 
   /// A language ID that determines the language for the search results text.
   external String language;
@@ -1103,16 +1103,16 @@ extension type SearchConstructorOptions._(JSObject _) implements JSObject {
   external CoordinateRegion region;
 
   /// A Boolean value that indicates whether the search autocomplete results include queries.
-  external JSBoolean includeQueries;
+  external bool includeQueries;
 
   /// A Boolean value that indicates whether the search results include addresses.
-  external JSBoolean includeAddresses;
+  external bool includeAddresses;
 
   /// A string that constrains search results to within the provided countries.
   external String limitToCountries;
 
   /// A Boolean value that indicates whether the search results should include points of interest.
-  external JSBoolean includePointsOfInterest;
+  external bool includePointsOfInterest;
 
   /// A filter used to include or exclude point of interest categories.
   external PointOfInterestFilter pointOfInterestFilter;
@@ -1124,10 +1124,10 @@ extension type SearchAutoCompleteOptions._(JSObject _) implements JSObject {
       {Coordinate coordinate,
       String language,
       CoordinateRegion region,
-      JSBoolean includeQueries,
-      JSBoolean includeAddresses,
+      bool includeQueries,
+      bool includeAddresses,
       String limitToCountries,
-      JSBoolean includePointsOfInterest,
+      bool includePointsOfInterest,
       PointOfInterestFilter pointOfInterestFilter});
 
   /// A map coordinate that provides a hint for the geographic area to search.
@@ -1140,16 +1140,16 @@ extension type SearchAutoCompleteOptions._(JSObject _) implements JSObject {
   external CoordinateRegion region;
 
   /// A Boolean value that indicates whether the search results should include queries.
-  external JSBoolean includeQueries;
+  external bool includeQueries;
 
   /// A Boolean value that indicates whether the search results should include addresses.
-  external JSBoolean includeAddresses;
+  external bool includeAddresses;
 
   /// A string that constrains search results to within the provided countries.
   external String limitToCountries;
 
   /// A Boolean value that indicates whether the search results should include points of interest.
-  external JSBoolean includePointsOfInterest;
+  external bool includePointsOfInterest;
 
   /// A filter used to include or exclude point of interest categories in search results.
   external PointOfInterestFilter pointOfInterestFilter;
@@ -1183,8 +1183,8 @@ extension type SearchOptions._(JSObject _) implements JSObject {
       String limitToCountries,
       String language,
       CoordinateRegion region,
-      JSBoolean includeAddresses,
-      JSBoolean includePointsOfInterest,
+      bool includeAddresses,
+      bool includePointsOfInterest,
       PointOfInterestFilter pointOfInterestFilter});
 
   /// A map coordinate that provides a hint for the geographic area to search.
@@ -1200,10 +1200,10 @@ extension type SearchOptions._(JSObject _) implements JSObject {
   external CoordinateRegion region;
 
   /// A Boolean value that indicates whether the search results should include addresses.
-  external JSBoolean includeAddresses;
+  external bool includeAddresses;
 
   /// A Boolean value that indicates whether the search results should include points of interest.
-  external JSBoolean includePointsOfInterest;
+  external bool includePointsOfInterest;
 
   /// A filter used to include or exclude point of interest categories in search results.
   external PointOfInterestFilter pointOfInterestFilter;
@@ -1283,7 +1283,7 @@ extension type PointsOfInterestSearch._(JSObject _) implements JSObject {
   external Coordinate center;
 
   /// The distance provided in meters, or the longest distance derived from the center point to the region’s bounding box.
-  external JSNumber radius;
+  external double radius;
 
   /// A filter that lists points of interest categories to include or exclude.
   external PointOfInterestFilter pointOfInterestFilter;
@@ -1292,11 +1292,10 @@ extension type PointsOfInterestSearch._(JSObject _) implements JSObject {
   external String language;
 
   /// Fetches points of interest.
-  external JSNumber search(
-      JSAny callback, PointsOfInterestSearchOptions? options);
+  external int search(JSAny callback, PointsOfInterestSearchOptions? options);
 
   /// Cancels a search request using its request ID.
-  external bool cancel(JSNumber id);
+  external bool cancel(int id);
 }
 
 /// Options that you may provide when you create a points of interest search.
@@ -1304,7 +1303,7 @@ extension type PointsOfInterestSearchOptions._(JSObject _) implements JSObject {
   external PointsOfInterestSearchOptions(
       {CoordinateRegion region,
       Coordinate center,
-      JSNumber radius,
+      double radius,
       PointOfInterestFilter pointOfInterestFilter,
       String language});
 
@@ -1315,7 +1314,7 @@ extension type PointsOfInterestSearchOptions._(JSObject _) implements JSObject {
   external Coordinate center;
 
   /// The distance provided in meters, or the longest distance derived from the center point to the region’s bounding box.
-  external JSNumber radius;
+  external double radius;
 
   /// A filter that lists points of interest categories to include or exclude.
   external PointOfInterestFilter pointOfInterestFilter;
@@ -1376,7 +1375,7 @@ extension type MapFeatureAnnotation._(JSObject _) implements JSObject {
   external MapFeatureAnnotationGlyphImage selectedGlyphImage;
 
   /// Fetches the place object associated with the map feature.
-  external JSNumber fetchPlace(JSAny callback);
+  external double fetchPlace(JSAny callback);
 }
 
 /// An object that describes map feature annotation images.
@@ -1385,7 +1384,7 @@ extension type MapFeatureAnnotationGlyphImage._(JSObject _)
   external MapFeatureAnnotationGlyphImage({JSFunction getImageUrl});
 
   /// Returns the image URL of the map feature.
-  external void getImageUrl(JSNumber scale, JSFunction callback);
+  external void getImageUrl(double scale, JSFunction callback);
 }
 
 /// An object that provides directions and estimated travel time based on the options you provide.
@@ -1394,13 +1393,13 @@ extension type Directions._(JSObject _) implements JSObject {
   external Directions(DirectionsConstructorOptions? options);
 
   /// Retrieves estimated arrival times to up to 10 destinations from a single starting point.
-  external JSNumber eta(EtaRequestOptions request, JSFunction callback);
+  external int eta(EtaRequestOptions request, JSFunction callback);
 
   /// Retrieves directions and estimated travel time based on the specified start and end points.
-  external JSNumber route(DirectionsRequest request, JSFunction callback);
+  external int route(DirectionsRequest request, JSFunction callback);
 
   /// Cancels a previous request for routes or estimated arrival times.
-  external bool cancel(JSNumber id);
+  external bool cancel(int id);
 }
 
 /// Options that you may provide when creating a directions object.
@@ -1435,10 +1434,10 @@ extension type EtaRequestOptions._(JSObject _) implements JSObject {
 /// The estimated arrival times for a set of destinations.
 extension type EtaResponse._(JSObject _) implements JSObject {
   external EtaResponse(
-      {JSAny request, Coordinate origin, JSArray<EtaResult> etas});
+      {JSObject request, Coordinate origin, JSArray<EtaResult> etas});
 
   /// The request object associated with the estimated time of arrival response.
-  external JSAny request;
+  external JSObject request;
 
   /// The coordinates that represent the starting point for estimated arrival time requests.
   external Coordinate origin;
@@ -1452,9 +1451,9 @@ extension type EtaResult._(JSObject _) implements JSObject {
   external EtaResult(
       {Transport transportType,
       Coordinate destination,
-      JSNumber distance,
-      JSNumber expectedTravelTime,
-      JSNumber staticTravelTime});
+      double distance,
+      double expectedTravelTime,
+      double staticTravelTime});
 
   /// The mode of transportation used to estimate the arrival time.
   external Transport transportType;
@@ -1463,13 +1462,13 @@ extension type EtaResult._(JSObject _) implements JSObject {
   external Coordinate destination;
 
   /// The route distance in meters.
-  external JSNumber distance;
+  external double distance;
 
   /// The estimated travel time in seconds, including delays due to traffic.
-  external JSNumber expectedTravelTime;
+  external double expectedTravelTime;
 
   /// The estimated travel time in seconds, excluding delays for traffic.
-  external JSNumber staticTravelTime;
+  external double staticTravelTime;
 }
 
 /// The requested start and end points for a route, as well as the planned mode of transportation.
@@ -1479,9 +1478,9 @@ extension type DirectionsRequest._(JSObject _) implements JSObject {
       JSAny destination,
       JSAny arrivalDate,
       JSAny departureDate,
-      JSBoolean requestsAlternateRoutes,
+      bool requestsAlternateRoutes,
       Transport transportType,
-      JSBoolean avoidTolls});
+      bool avoidTolls});
 
   /// The starting point for routing directions.
   external JSAny origin;
@@ -1496,13 +1495,13 @@ extension type DirectionsRequest._(JSObject _) implements JSObject {
   external JSAny departureDate;
 
   /// A Boolean value that indicates whether the server returns multiple routes when they’re available.
-  external JSBoolean requestsAlternateRoutes;
+  external bool requestsAlternateRoutes;
 
   /// The mode of transportation the directions apply to.
   external Transport transportType;
 
   /// A Boolean value that prioritizes routes to avoid tolls.
-  external JSBoolean avoidTolls;
+  external bool avoidTolls;
 }
 
 /// The directions and estimated travel time that return for a route.
@@ -1533,10 +1532,10 @@ extension type Route._(JSObject _) implements JSObject {
       Coordinate path,
       JSArray<RouteStep> steps,
       String name,
-      JSNumber distance,
-      JSNumber expectedTravelTime,
+      double distance,
+      double expectedTravelTime,
       Transport transportType,
-      JSBoolean hasTolls});
+      bool hasTolls});
 
   /// An instance of a polyline overlay that represents the path of a route.
   external PolylineOverlay polyline;
@@ -1551,16 +1550,16 @@ extension type Route._(JSObject _) implements JSObject {
   external String name;
 
   /// The route distance, in meters.
-  external JSNumber distance;
+  external double distance;
 
   /// The expected travel time, in seconds.
-  external JSNumber expectedTravelTime;
+  external double expectedTravelTime;
 
   /// The overall route transport type.
   external Transport transportType;
 
   /// A Boolean value that indicates whether a route has tolls.
-  external JSBoolean hasTolls;
+  external bool hasTolls;
 }
 
 /// A single step of the route between the requested start and end points.
@@ -1568,7 +1567,7 @@ extension type RouteStep._(JSObject _) implements JSObject {
   external RouteStep(
       {JSArray<Coordinate> path,
       String instructions,
-      JSNumber distance,
+      double distance,
       Transport transportType});
 
   /// An array of coordinate objects representing the path of the route segment.
@@ -1578,7 +1577,7 @@ extension type RouteStep._(JSObject _) implements JSObject {
   external String instructions;
 
   /// The step distance, in meters.
-  external JSNumber distance;
+  external double distance;
 
   /// The transport type of the step.
   external Transport transportType;
@@ -1587,38 +1586,37 @@ extension type RouteStep._(JSObject _) implements JSObject {
 /// The values that define content padding within the map view frame.
 extension type Padding._(JSObject _) implements JSObject {
   /// Creates a padding object and initializes its inset margin properties.
-  external Padding(
-      JSAny top, JSNumber? right, JSNumber? bottom, JSNumber? left);
+  external Padding(JSAny top, double? right, double? bottom, double? left);
 
   /// The amount of padding, in CSS pixels, to inset the map from the bottom edge.
-  external JSNumber bottom;
+  external double bottom;
 
   /// The amount of padding, in CSS pixels, to inset the map from the left edge.
-  external JSNumber left;
+  external double left;
 
   /// The amount of padding, in CSS pixels, to inset the map from the right edge.
-  external JSNumber right;
+  external double right;
 
   /// The amount of padding, in CSS pixels, to inset the map from the top edge.
-  external JSNumber top;
+  external double top;
 }
 
 /// Initial values of the edge insets for padding.
 extension type PaddingConstructorOptions._(JSObject _) implements JSObject {
   external PaddingConstructorOptions(
-      {JSNumber bottom, JSNumber left, JSNumber right, JSNumber top});
+      {double bottom, double left, double right, double top});
 
   /// The amount of padding, in CSS pixels, to inset the map from the bottom edge.
-  external JSNumber bottom;
+  external double bottom;
 
   /// The amount of padding, in CSS pixels, to inset the map from the left edge.
-  external JSNumber left;
+  external double left;
 
   /// The amount of padding, in CSS pixels, to inset the map from the right edge.
-  external JSNumber right;
+  external double right;
 
   /// The amount of padding, in CSS pixels, to inset the map from the top edge.
-  external JSNumber top;
+  external double top;
 }
 
 /// A delegate object that controls a GeoJSON import to override default behavior and provide custom style.
@@ -1637,50 +1635,50 @@ extension type GeoJSONDelegate._(JSObject _) implements JSObject {
       JSFunction geoJSONDidError});
 
   /// Overrides a feature.
-  external JSAny itemForFeature(JSAny item, JSAny geoJSON);
+  external JSAny itemForFeature(JSAny item, JSObject geoJSON);
 
   /// Overrides a feature collection.
   external JSAny itemForFeatureCollection(
-      ItemCollection itemCollection, JSAny geoJSON);
+      ItemCollection itemCollection, JSObject geoJSON);
 
   /// Overrides a line string.
-  external JSAny itemForLineString(PolylineOverlay overlay, JSAny geoJSON);
+  external JSAny itemForLineString(PolylineOverlay overlay, JSObject geoJSON);
 
   /// Overrides a multiline string.
   external JSAny itemForMultiLineString(
-      ItemCollection itemCollection, JSAny geoJSON);
+      ItemCollection itemCollection, JSObject geoJSON);
 
   /// Overrides a point.
-  external JSAny itemForPoint(Coordinate coordinate, JSAny geoJSON);
+  external JSAny itemForPoint(Coordinate coordinate, JSObject geoJSON);
 
   /// Overrides a multipoint object.
   external JSAny itemForMultiPoint(
-      ItemCollection itemCollection, JSAny geoJSON);
+      ItemCollection itemCollection, JSObject geoJSON);
 
   /// Overrides a polygon.
-  external JSAny itemForPolygon(PolygonOverlay overlay, JSAny geoJSON);
+  external JSAny itemForPolygon(PolygonOverlay overlay, JSObject geoJSON);
 
   /// Overrides a multipolygon.
   external JSAny itemForMultiPolygon(
-      ItemCollection itemCollection, JSAny geoJSON);
+      ItemCollection itemCollection, JSObject geoJSON);
 
   /// Overrides the style of overlays.
-  external Style styleForOverlay(Overlay overlay, JSAny geoJSON);
+  external Style styleForOverlay(Overlay overlay, JSObject geoJSON);
 
   /// Completes the GeoJSON import.
-  external void geoJSONDidComplete(ItemCollection result, JSAny geoJSON);
+  external void geoJSONDidComplete(ItemCollection result, JSObject geoJSON);
 
   /// Indicates when the GeoJSON import fails.
-  external void geoJSONDidError(JSAny error, JSAny geoJSON);
+  external void geoJSONDidError(JSAny error, JSObject geoJSON);
 }
 
 /// A tree structure containing annotations, overlays, and nested item collection objects.
 extension type ItemCollection._(JSObject _) implements JSObject {
   external ItemCollection(
-      {JSAny data, JSAny getFlattenedItemList, JSAny items});
+      {JSObject data, JSAny getFlattenedItemList, JSAny items});
 
   /// The raw GeoJSON data.
-  external JSAny data;
+  external JSObject data;
 
   /// A flattened array of items that includes annotations and overlays.
   external JSAny getFlattenedItemList;
@@ -1765,13 +1763,13 @@ extension type Place._(JSObject _) implements JSObject {
 /// An object representing the latitude and longitude for a point on the Earth’s surface.
 extension type Coordinate._(JSObject _) implements JSObject {
   /// Creates a coordinate object with the specified latitude and longitude.
-  external Coordinate(JSNumber latitude, JSNumber longitude);
+  external Coordinate(double latitude, double longitude);
 
   /// The latitude, in degrees.
-  external JSNumber latitude;
+  external double latitude;
 
   /// The longitude, in degrees.
-  external JSNumber longitude;
+  external double longitude;
 
   /// Returns a copy of the coordinate.
   external Coordinate copy();
@@ -1798,7 +1796,7 @@ extension type CoordinateRegion._(JSObject _) implements JSObject {
   external CoordinateSpan span;
 
   /// The distance provided in meters or the longest distance derived from the center point to the region’s bounding box.
-  external JSNumber radius;
+  external double radius;
 
   /// Returns a copy of the calling coordinate region.
   external void copy();
@@ -1816,13 +1814,13 @@ extension type CoordinateRegion._(JSObject _) implements JSObject {
 /// The width and height of a map region.
 extension type CoordinateSpan._(JSObject _) implements JSObject {
   /// Creates a new coordinate span object with the specified latitude and longitude deltas.
-  external CoordinateSpan(JSNumber latitudeDelta, JSNumber longitudeDelta);
+  external CoordinateSpan(double latitudeDelta, double longitudeDelta);
 
   /// The amount of north-to-south distance (in degrees) to display for the map region.
-  external JSNumber latitudeDelta;
+  external double latitudeDelta;
 
   /// The amount of east-to-west distance (in degrees) to display for the map region.
-  external JSNumber longitudeDelta;
+  external double longitudeDelta;
 
   /// Returns a copy of the coordinate span.
   external CoordinateSpan copy();
@@ -1834,20 +1832,20 @@ extension type CoordinateSpan._(JSObject _) implements JSObject {
 /// A rectangular area on a map, which coordinates of the rectangle’s northeast and southwest corners define.
 extension type BoundingRegion._(JSObject _) implements JSObject {
   /// Creates a rectangular bounding region, which the latitude and longitude coordinates of the rectangle’s northeast and southwest corners define.
-  external BoundingRegion(JSNumber northLatitude, JSNumber eastLongitude,
-      JSNumber southLatitude, JSNumber westLongitude);
+  external BoundingRegion(double northLatitude, double eastLongitude,
+      double southLatitude, double westLongitude);
 
   /// The east longitude of the bounding region.
-  external JSNumber eastLongitude;
+  external double eastLongitude;
 
   /// The north latitude of the bounding region.
-  external JSNumber northLatitude;
+  external double northLatitude;
 
   /// The south latitude of the bounding region.
-  external JSNumber southLatitude;
+  external double southLatitude;
 
   /// The west longitude of the bounding region.
-  external JSNumber westLongitude;
+  external double westLongitude;
 
   /// Returns a copy of the calling bounding region.
   external BoundingRegion copy();
@@ -1859,13 +1857,13 @@ extension type BoundingRegion._(JSObject _) implements JSObject {
 /// A location, in map units, of a point on the Earth’s surface projected onto a 2D map.
 extension type MapPoint._(JSObject _) implements JSObject {
   /// Creates a map location.
-  external MapPoint(JSNumber x, JSNumber y);
+  external MapPoint(double x, double y);
 
   /// The location of the map point along the map’s x-axis.
-  external JSNumber x;
+  external double x;
 
   /// The location of the map point along the map’s y-axis.
-  external JSNumber y;
+  external double y;
 
   /// Returns a copy of the location.
   external MapPoint copy();
@@ -1880,7 +1878,7 @@ extension type MapPoint._(JSObject _) implements JSObject {
 /// A rectangular region, in map units, of a two-dimensional map projection.
 extension type MapRect._(JSObject _) implements JSObject {
   /// Creates an object that represents a rectangular region of the map projection.
-  external MapRect(JSNumber x, JSNumber y, JSNumber width, JSNumber height);
+  external MapRect(double x, double y, double width, double height);
 
   /// The origin point of a rectangle.
   external MapPoint origin;
@@ -1889,22 +1887,22 @@ extension type MapRect._(JSObject _) implements JSObject {
   external MapSize size;
 
   /// Returns the maximum x-axis value of a rectangle.
-  external JSNumber maxX();
+  external double maxX();
 
   /// Returns the maximum y-axis value of a rectangle.
-  external JSNumber maxY();
+  external double maxY();
 
   /// Returns the midpoint along the x-axis of a rectangle.
-  external JSNumber midX();
+  external double midX();
 
   /// Returns the midpoint along the y-axis of a rectangle.
-  external JSNumber midY();
+  external double midY();
 
   /// Returns the minimum x-axis value of a rectangle.
-  external JSNumber minX();
+  external double minX();
 
   /// Returns the minimum y-axis value of a rectangle.
-  external JSNumber minY();
+  external double minY();
 
   /// Returns a copy of a map rectangle.
   external MapRect copy();
@@ -1913,7 +1911,7 @@ extension type MapRect._(JSObject _) implements JSObject {
   external bool equals(MapRect anotherRect);
 
   /// Returns a scaled map rectangle for a map location.
-  external MapRect scale(JSNumber scaleFactor, MapPoint scaleCenter);
+  external MapRect scale(double scaleFactor, MapPoint scaleCenter);
 
   /// Returns the region that corresponds to a map rectangle.
   external CoordinateRegion toCoordinateRegion();
@@ -1922,13 +1920,13 @@ extension type MapRect._(JSObject _) implements JSObject {
 /// A pair of values, in map units, that define the width and height of a rectangular area of a map projection.
 extension type MapSize._(JSObject _) implements JSObject {
   /// Creates an object containing the width and height of a projected coordinate span.
-  external MapSize(JSNumber width, JSNumber height);
+  external MapSize(double width, double height);
 
   /// The height of the map size in map units.
-  external JSNumber height;
+  external double height;
 
   /// The width of the map size in map units.
-  external JSNumber width;
+  external double width;
 
   /// Returns a copy of the map size object.
   external MapSize copy();
@@ -1940,27 +1938,26 @@ extension type MapSize._(JSObject _) implements JSObject {
 /// A minimum and maximum camera distance, in meters, from the center of the map.
 extension type CameraZoomRange._(JSObject _) implements JSObject {
   /// Describes the minimum and maximum camera distance in meters.
-  external CameraZoomRange(
-      JSAny minCameraDistance, JSNumber? maxCameraDistance);
+  external CameraZoomRange(JSAny minCameraDistance, double? maxCameraDistance);
 
   /// The minimum allowed distance of the camera from the center of the map in meters.
-  external JSNumber minCameraDistance;
+  external double minCameraDistance;
 
   /// The maximum allowed distance of the camera from the center of the map in meters.
-  external JSNumber maxCameraDistance;
+  external double maxCameraDistance;
 }
 
 /// Initialization options for the camera zoom range.
 extension type CameraZoomRangeConstructorOptions._(JSObject _)
     implements JSObject {
   external CameraZoomRangeConstructorOptions(
-      {JSNumber minCameraDistance, JSNumber maxCameraDistance});
+      {double minCameraDistance, double maxCameraDistance});
 
   /// The minimum allowed distance of the camera from the center of the map in meters.
-  external JSNumber minCameraDistance;
+  external double minCameraDistance;
 
   /// The maximum allowed distance of the camera from the center of the map in meters.
-  external JSNumber maxCameraDistance;
+  external double maxCameraDistance;
 }
 
 /// An object that contains data MapKit JS returns from a place search request.
@@ -1988,5 +1985,5 @@ extension type ImageDelegate._(JSObject _) implements JSObject {
   external ImageDelegate({JSFunction getImageUrl});
 
   /// Returns the URL to an image of the specified scale.
-  external void getImageUrl(JSNumber scale, JSFunction callback);
+  external void getImageUrl(double scale, JSFunction callback);
 }
