@@ -1,3 +1,7 @@
+## 0.2.0
+- Fix property and method types to use primitive types.
+- Add InitializationEvent.
+
 ## 0.1.0
 - Add all members
 - Create Code Generator

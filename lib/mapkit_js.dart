@@ -29,3 +29,9 @@ Future<web.Event> loadMapKitJS(String tokenID,
 
   return completer.future;
 }
+
+/// Respond to events that trigger when MapKit JS initializes.
+extension type InitializationEvent._(JSAny _) implements JSAny {
+  external String type;
+  external String status;
+}

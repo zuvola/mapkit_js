@@ -46,8 +46,7 @@ void main() async {
       map.addEventListener(
           'single-tap',
           (JSAny e) {
-            map.setCenterAnimated(
-                mapkit.Coordinate(37.415.toJS, (-122.048333).toJS), true);
+            map.setCenterAnimated(mapkit.Coordinate(37.415, -122.048333), true);
           }.toJS,
           null);
     });
@@ -56,6 +55,11 @@ void main() async {
 ```
 
 ## TokenID
+
+To use MapKitJS, you need to issue a TokenID.  
+Please refer to the following link to obtain a TokenID.  
+
+https://developer.apple.com/documentation/mapkitjs/creating_a_maps_identifier_and_a_private_key
 
 If you put the TokenID in build.yaml as follows, you can get the value with String.fromEnvironment in Dart.
 
