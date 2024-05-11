@@ -175,7 +175,7 @@ extension type Map._(JSObject _) implements JSObject {
   external bool tracksUserLocation;
 
   /// An annotation that indicates the user’s location on the map.
-  external Annotation userLocationAnnotation;
+  external Annotation? userLocationAnnotation;
 
   /// The map’s DOM element.
   external web.Element element;

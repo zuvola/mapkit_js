@@ -64,6 +64,9 @@ class JSProperty {
       }
       type = 'JSArray<$type>';
     }
+    if (name == 'userLocationAnnotation') {
+      type += '?';
+    }
     return type;
   }
 

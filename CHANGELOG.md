@@ -1,3 +1,7 @@
+## 0.3.0
+- Inheritance is considered.
+- userLocationAnnotation to optional.
+
 ## 0.2.0
 - Fix property and method types to use primitive types.
 - Add InitializationEvent.
