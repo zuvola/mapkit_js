@@ -3,6 +3,7 @@ import 'member.dart';
 class JSClass extends Member {
   String name;
   String description;
+  String parent = 'JSObject';
   JSClass({
     required this.name,
     required this.description,
@@ -11,7 +12,7 @@ class JSClass extends Member {
   String output() {
     final out = StringBuffer();
     out.writeln('/// $description');
-    out.writeln('extension type $name._(JSObject _) implements JSObject {');
+    out.writeln('extension type $name._(JSObject _) implements $parent {');
     if (init != null) {
       out.write(init!.output());
     } else {

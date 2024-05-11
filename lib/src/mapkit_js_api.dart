@@ -648,7 +648,7 @@ extension type AnnotationCalloutDelegate._(JSObject _) implements JSObject {
 }
 
 /// A customized annotation with image resources that you provide.
-extension type ImageAnnotation._(JSObject _) implements JSObject {
+extension type ImageAnnotation._(JSObject _) implements Annotation {
   /// Creates an image annotation with a URL to its image and a coordinate.
   external ImageAnnotation(
       JSAny location, ImageAnnotationConstructorOptions? options);
@@ -659,7 +659,7 @@ extension type ImageAnnotation._(JSObject _) implements JSObject {
 
 /// An object containing options for creating an image annotation.
 extension type ImageAnnotationConstructorOptions._(JSObject _)
-    implements JSObject {
+    implements AnnotationConstructorOptions {
   external ImageAnnotationConstructorOptions({JSObject url});
 
   /// An object containing URLs for the image assets in multiple resolutions.
@@ -667,7 +667,7 @@ extension type ImageAnnotationConstructorOptions._(JSObject _)
 }
 
 /// An annotation that displays a balloon-shaped marker at the designated location.
-extension type MarkerAnnotation._(JSObject _) implements JSObject {
+extension type MarkerAnnotation._(JSObject _) implements Annotation {
   /// Creates a marker annotation at the coordinate location with provided options.
   external MarkerAnnotation(
       JSAny location, MarkerAnnotationConstructorOptions? options);
@@ -696,7 +696,7 @@ extension type MarkerAnnotation._(JSObject _) implements JSObject {
 
 /// An object containing the options that create a marker annotation.
 extension type MarkerAnnotationConstructorOptions._(JSObject _)
-    implements JSObject {
+    implements AnnotationConstructorOptions {
   external MarkerAnnotationConstructorOptions(
       {String color,
       String glyphColor,
@@ -882,7 +882,7 @@ extension type LineGradient._(JSObject _) implements JSObject {
 }
 
 /// A circular overlay with a configurable radius that centers on a specific geographic coordinate.
-extension type CircleOverlay._(JSObject _) implements JSObject {
+extension type CircleOverlay._(JSObject _) implements Overlay {
   /// Creates a circle overlay with a center coordinate, radius, and style options.
   external CircleOverlay(
       Coordinate coordinate, double radius, StylesOverlayOptions? options);
@@ -895,7 +895,7 @@ extension type CircleOverlay._(JSObject _) implements JSObject {
 }
 
 /// An observable set of style attributes for an overlay.
-extension type StylesOverlayOptions._(JSObject _) implements JSObject {
+extension type StylesOverlayOptions._(JSObject _) implements OverlayOptions {
   external StylesOverlayOptions({Style style});
 
   /// An object literal of style properties.
@@ -903,7 +903,7 @@ extension type StylesOverlayOptions._(JSObject _) implements JSObject {
 }
 
 /// An overlay of connected line segments that don’t form a closed shape.
-extension type PolylineOverlay._(JSObject _) implements JSObject {
+extension type PolylineOverlay._(JSObject _) implements Overlay {
   /// Creates a polyline overlay with coordinate points and style options.
   external PolylineOverlay(
       JSArray<Coordinate> points, StylesOverlayOptions? options);
@@ -913,7 +913,7 @@ extension type PolylineOverlay._(JSObject _) implements JSObject {
 }
 
 /// An overlay consisting of one or more points that forms a closed shape.
-extension type PolygonOverlay._(JSObject _) implements JSObject {
+extension type PolygonOverlay._(JSObject _) implements Overlay {
   /// Creates a polygon overlay with an array of points and style options.
   external PolygonOverlay(
       JSArray<Coordinate> points, StylesOverlayOptions? options);
@@ -1346,7 +1346,7 @@ extension type PointsOfInterestSearchResponse._(JSObject _)
 }
 
 /// An object that represents a map feature that the user selects.
-extension type MapFeatureAnnotation._(JSObject _) implements JSObject {
+extension type MapFeatureAnnotation._(JSObject _) implements MarkerAnnotation {
   external MapFeatureAnnotation(
       {String title,
       MapFeatureType featureType,
@@ -1380,7 +1380,7 @@ extension type MapFeatureAnnotation._(JSObject _) implements JSObject {
 
 /// An object that describes map feature annotation images.
 extension type MapFeatureAnnotationGlyphImage._(JSObject _)
-    implements JSObject {
+    implements ImageDelegate {
   external MapFeatureAnnotationGlyphImage({JSFunction getImageUrl});
 
   /// Returns the image URL of the map feature.

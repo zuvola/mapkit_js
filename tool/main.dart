@@ -88,6 +88,15 @@ Future<void> parse(JSRoot root, Member member, List children) async {
           name = 'SearchAutoCompleteOptions';
         }
         final jsclass = JSClass(name: name, description: description);
+        if (json['relationshipsSections'] != null) {
+          final inherit =
+              json['relationshipsSections'][0]['identifiers'][0] as String;
+          final name = inherit.split('/').last;
+          final parentJson =
+              await loadPath('/documentation/mapkitjs/$name.json');
+          jsclass.parent =
+              parentJson['metadata']['title'].replaceAll('mapkit.', '');
+        }
         final sameobj = root.classes.cast<JSClass?>().firstWhere(
             (element) => element?.name == title,
             orElse: () => null);
