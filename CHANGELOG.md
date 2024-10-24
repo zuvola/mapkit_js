@@ -1,3 +1,7 @@
+## 0.4.0
+- Update libraries.
+- Support for MapKit JS version 5.45.0.
+
 ## 0.3.0
 - Inheritance is considered.
 - userLocationAnnotation to optional.

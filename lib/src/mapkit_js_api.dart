@@ -4,6 +4,7 @@ library;
 import 'dart:js_interop';
 import 'package:web/web.dart' as web;
 
+typedef PlaceDatailOptions = JSAny;
 typedef MapTypes = JSString;
 typedef LoadPriorities = JSString;
 typedef ColorSchemes = JSString;
@@ -11,9 +12,12 @@ typedef Distances = JSString;
 typedef CollisionMode = JSString;
 typedef DisplayPriority = JSString;
 typedef FeatureVisibility = JSString;
+typedef AddressCategory = JSString;
+typedef RegionPriority = JSString;
 typedef PointOfInterestCategory = JSString;
 typedef MapFeatureType = JSString;
 typedef Transport = JSString;
+typedef Styles = JSString;
 
 /// The list of available libraries.
 @JS()
@@ -27,6 +31,10 @@ external JSArray<JSString> loadedLibraries;
 /// An array that automatically adds and removes maps as the framework creates and destroys them.
 @JS()
 external JSArray<Map> maps;
+
+/// A list of all user-created place detail objects that are currently active on a page.
+@JS()
+external JSArray<PlaceDetail> placeDetails;
 
 /// A language ID indicating the selected language.
 @JS()
@@ -182,6 +190,9 @@ extension type Map._(JSObject _) implements JSObject {
 
   /// An array of map features that users can select from the map.
   external JSArray<MapFeatureType> selectableMapFeatures;
+
+  /// An accessory for displaying place information when a person selects a map feature.
+  external JSAny selectableMapFeatureSelectionAccessory;
 
   /// A value MapKit JS uses for prioritizing the visibility of specific map features before the underlaying map tiles.
   external JSAny loadPriority;
@@ -513,6 +524,12 @@ extension type Annotation._(JSObject _) implements JSObject {
   /// A mode that determines the shape of the collision frame.
   external String collisionMode;
 
+  /// An accessory that displays place information when a person selects a place.
+  external JSAny selectionAccessory;
+
+  /// An offset that changes the selection accessory’s default anchor point.
+  external web.DOMPoint selectionAccessoryOffset;
+
   /// Adds an event listener to handle events that user interactions with annotations trigger.
   external void addEventListener(
       String type, JSFunction listener, JSObject? thisObject);
@@ -544,7 +561,8 @@ extension type AnnotationConstructorOptions._(JSObject _) implements JSObject {
       bool calloutEnabled,
       web.DOMPoint calloutOffset,
       String clusteringIdentifier,
-      String collisionMode});
+      String collisionMode,
+      String id});
 
   /// Data that you define and assign to the annotation.
   external JSObject data;
@@ -605,6 +623,9 @@ extension type AnnotationConstructorOptions._(JSObject _) implements JSObject {
 
   /// A mode that determines the shape of the collision frame.
   external String collisionMode;
+
+  /// A Place ID that uniquely identifies a feature.
+  external String id;
 }
 
 /// Methods for customizing the behavior and appearance of an annotation callout.
@@ -645,6 +666,50 @@ extension type AnnotationCalloutDelegate._(JSObject _) implements JSObject {
   /// Returns an element to use as a custom accessory on the right side of the callout content area.
   external web.Element calloutRightAccessoryForAnnotation(
       Annotation annotation);
+}
+
+/// An annotation for a place.
+extension type PlaceAnnotation._(JSObject _) implements MarkerAnnotation {
+  /// Creates a new place annotation.
+  external PlaceAnnotation(
+      JSAny location, MarkerAnnotationConstructorOptions? options);
+}
+
+/// An object that represents a map feature that the user selects.
+extension type MapFeatureAnnotation._(JSObject _) implements PlaceAnnotation {
+  external MapFeatureAnnotation(
+      {String title,
+      MapFeatureType featureType,
+      PointOfInterestCategory pointOfInterestCategory,
+      String id,
+      String color,
+      MapFeatureAnnotationGlyphImage glyphImage,
+      MapFeatureAnnotationGlyphImage selectedGlyphImage,
+      JSFunction fetchPlace});
+
+  /// The title of the feature.
+  external String title;
+
+  /// A value that describes the type of place the feature represents.
+  external MapFeatureType featureType;
+
+  /// The point-of-interest category of the feature.
+  external PointOfInterestCategory pointOfInterestCategory;
+
+  /// The Place ID referencing the feature.
+  external String id;
+
+  /// The color of the map feature.
+  external String color;
+
+  /// The glyph image for the feature.
+  external MapFeatureAnnotationGlyphImage glyphImage;
+
+  /// The glyph image for the selected feature.
+  external MapFeatureAnnotationGlyphImage selectedGlyphImage;
+
+  /// Fetches the place object associated with the map feature.
+  external double fetchPlace(JSAny callback);
 }
 
 /// A customized annotation with image resources that you provide.
@@ -1062,6 +1127,29 @@ extension type GeocoderResponse._(JSObject _) implements JSObject {
   external JSArray<Place> results;
 }
 
+/// An object that filters which address options to include or exclude in search results.
+extension type AddressFilter._(JSObject _) implements JSObject {
+  external AddressFilter(
+      {JSFunction excluding,
+      JSFunction including,
+      JSFunction excludesCategory,
+      JSFunction includesCategory});
+
+  /// A list of categories to exclude from a search.
+  external static AddressFilter excluding(
+      JSArray<AddressCategory> categoryList);
+
+  /// A list of categories to include in a search.
+  external static AddressFilter including(
+      JSArray<AddressCategory> categoryList);
+
+  /// A Boolean value that indicates whether to exclude a category from a search.
+  external bool excludesCategory(AddressCategory category);
+
+  /// A Boolean value that indicates whether to include a category from a search.
+  external bool includesCategory(AddressCategory category);
+}
+
 /// An object that retrieves map-based search results for a user-entered query.
 extension type Search._(JSObject _) implements JSObject {
   /// Creates a search object with optional initial values that you provide.
@@ -1084,9 +1172,12 @@ extension type SearchConstructorOptions._(JSObject _) implements JSObject {
       bool getsUserLocation,
       String language,
       CoordinateRegion region,
+      bool includePhysicalFeatures,
       bool includeQueries,
-      bool includeAddresses,
       String limitToCountries,
+      String regionPriority,
+      AddressFilter addressFilter,
+      bool includeAddresses,
       bool includePointsOfInterest,
       PointOfInterestFilter pointOfInterestFilter});
 
@@ -1102,56 +1193,28 @@ extension type SearchConstructorOptions._(JSObject _) implements JSObject {
   /// A map region that provides a hint for the geographic area to search.
   external CoordinateRegion region;
 
-  /// A Boolean value that indicates whether the search autocomplete results include queries.
-  external bool includeQueries;
+  /// A Boolean value that indicates whether the search results include physical features, such as mountain ranges, rivers, and ocean basins.
+  external bool includePhysicalFeatures;
 
-  /// A Boolean value that indicates whether the search results include addresses.
-  external bool includeAddresses;
+  /// A Boolean value that indicates whether the search results include queries.
+  external bool includeQueries;
 
   /// A string that constrains search results to within the provided countries.
   external String limitToCountries;
+
+  /// A filter that controls whether results occur outside, or strictly within, the region.
+  external String regionPriority;
+
+  /// A filter that lists which address components to include or exclude in search results.
+  external AddressFilter addressFilter;
+
+  /// A Boolean value that indicates whether the search results include addresses.
+  external bool includeAddresses;
 
   /// A Boolean value that indicates whether the search results should include points of interest.
   external bool includePointsOfInterest;
 
   /// A filter used to include or exclude point of interest categories.
-  external PointOfInterestFilter pointOfInterestFilter;
-}
-
-/// Options you provide to constrain an autocomplete request.
-extension type SearchAutoCompleteOptions._(JSObject _) implements JSObject {
-  external SearchAutoCompleteOptions(
-      {Coordinate coordinate,
-      String language,
-      CoordinateRegion region,
-      bool includeQueries,
-      bool includeAddresses,
-      String limitToCountries,
-      bool includePointsOfInterest,
-      PointOfInterestFilter pointOfInterestFilter});
-
-  /// A map coordinate that provides a hint for the geographic area to search.
-  external Coordinate coordinate;
-
-  /// A language ID that determines the language for the search result text.
-  external String language;
-
-  /// A map region that provides a hint for the geographic area to search.
-  external CoordinateRegion region;
-
-  /// A Boolean value that indicates whether the search results should include queries.
-  external bool includeQueries;
-
-  /// A Boolean value that indicates whether the search results should include addresses.
-  external bool includeAddresses;
-
-  /// A string that constrains search results to within the provided countries.
-  external String limitToCountries;
-
-  /// A Boolean value that indicates whether the search results should include points of interest.
-  external bool includePointsOfInterest;
-
-  /// A filter used to include or exclude point of interest categories in search results.
   external PointOfInterestFilter pointOfInterestFilter;
 }
 
@@ -1179,34 +1242,46 @@ extension type SearchDelegate._(JSObject _) implements JSObject {
 /// An object that contains options to adjust a search.
 extension type SearchOptions._(JSObject _) implements JSObject {
   external SearchOptions(
-      {Coordinate coordinate,
-      String limitToCountries,
-      String language,
-      CoordinateRegion region,
+      {AddressFilter addressFilter,
+      Coordinate coordinate,
       bool includeAddresses,
+      bool includePhysicalFeatures,
       bool includePointsOfInterest,
-      PointOfInterestFilter pointOfInterestFilter});
+      String language,
+      String limitToCountries,
+      PointOfInterestFilter pointOfInterestFilter,
+      CoordinateRegion region,
+      String regionPriority});
+
+  /// An object that filters which address components to include or exclude in search results.
+  external AddressFilter addressFilter;
 
   /// A map coordinate that provides a hint for the geographic area to search.
   external Coordinate coordinate;
 
-  /// A string that constrains search results to within the provided countries.
-  external String limitToCountries;
-
-  /// A language ID that determines the language for the search result text.
-  external String language;
-
-  /// A map region that provides a hint for the geographic area to search.
-  external CoordinateRegion region;
-
   /// A Boolean value that indicates whether the search results should include addresses.
   external bool includeAddresses;
+
+  /// A Boolean value that indicates whether the search results include physical features, such as mountain ranges, rivers, and ocean basins.
+  external bool includePhysicalFeatures;
 
   /// A Boolean value that indicates whether the search results should include points of interest.
   external bool includePointsOfInterest;
 
-  /// A filter used to include or exclude point of interest categories in search results.
+  /// A language ID that determines the language for the search result text.
+  external String language;
+
+  /// A string that constrains search results to within the provided countries.
+  external String limitToCountries;
+
+  /// A filter for including or excluding point-of-interest categories in search results.
   external PointOfInterestFilter pointOfInterestFilter;
+
+  /// A map region that provides a hint for the geographic area to search.
+  external CoordinateRegion region;
+
+  /// A filter that controls whether results occur outside, or strictly within, the region.
+  external String regionPriority;
 }
 
 /// The result of a search, including the original search query, the bounding region, and a list of places that match the query.
@@ -1222,6 +1297,55 @@ extension type SearchResponse._(JSObject _) implements JSObject {
 
   /// The region that encloses the places from the search results.
   external CoordinateRegion boundingRegion;
+}
+
+/// Options you provide to constrain an autocomplete request.
+extension type SearchAutoCompleteOptions._(JSObject _) implements JSObject {
+  external SearchAutoCompleteOptions(
+      {Coordinate coordinate,
+      String language,
+      CoordinateRegion region,
+      bool includePhysicalFeatures,
+      bool includePointsOfInterest,
+      bool includeQueries,
+      String limitToCountries,
+      String regionPriority,
+      AddressFilter addressFilter,
+      bool includeAddresses,
+      PointOfInterestFilter pointOfInterestFilter});
+
+  /// A map coordinate that provides a hint for the geographic area to search.
+  external Coordinate coordinate;
+
+  /// A language ID that determines the language for the search result text.
+  external String language;
+
+  /// A map region that provides a hint for the geographic area to search.
+  external CoordinateRegion region;
+
+  /// A Boolean value that indicates whether the autocomplete search results include physical features, such as mountain ranges, rivers, and ocean basins.
+  external bool includePhysicalFeatures;
+
+  /// A Boolean value that indicates whether the search results include points of interest.
+  external bool includePointsOfInterest;
+
+  /// A Boolean value that indicates whether the search results include queries.
+  external bool includeQueries;
+
+  /// A string that constrains search results to within the provided countries.
+  external String limitToCountries;
+
+  /// A filter that controls whether results occur outside, or strictly within, the region.
+  external String regionPriority;
+
+  /// A filter that lists which address options to include or exclude in search results.
+  external AddressFilter addressFilter;
+
+  /// A Boolean value that indicates whether the search results include addresses.
+  external bool includeAddresses;
+
+  /// A filter used to include or exclude point of interest categories in search results.
+  external PointOfInterestFilter pointOfInterestFilter;
 }
 
 /// An object containing the response from an autocomplete request.
@@ -1264,10 +1388,10 @@ extension type PointOfInterestFilter._(JSObject _) implements JSObject {
   external static PointOfInterestFilter excluding(
       JSArray<PointOfInterestCategory> categoryList);
 
-  /// Returns a Boolean value that indicates whether the filter includes the provided point of interest category.
+  /// Returns a Boolean value that indicates whether the filter includes the provided point-of-interest category.
   external bool includesCategory(PointOfInterestCategory category);
 
-  /// Returns a Boolean value that indicates whether the filter excludes the provided point of interest category.
+  /// Returns a Boolean value that indicates whether the filter excludes the provided point-of-interest category.
   external bool excludesCategory(PointOfInterestCategory category);
 }
 
@@ -1343,39 +1467,6 @@ extension type PointsOfInterestSearchResponse._(JSObject _)
 
   /// The list of points of interest that match the request options.
   external JSArray<Place> places;
-}
-
-/// An object that represents a map feature that the user selects.
-extension type MapFeatureAnnotation._(JSObject _) implements MarkerAnnotation {
-  external MapFeatureAnnotation(
-      {String title,
-      MapFeatureType featureType,
-      PointOfInterestCategory pointOfInterestCategory,
-      String color,
-      MapFeatureAnnotationGlyphImage glyphImage,
-      MapFeatureAnnotationGlyphImage selectedGlyphImage,
-      JSFunction fetchPlace});
-
-  /// The title of the feature.
-  external String title;
-
-  /// A value that describes the type of place the feature represents.
-  external MapFeatureType featureType;
-
-  /// The point-of-interest category of the feature.
-  external PointOfInterestCategory pointOfInterestCategory;
-
-  /// The color of the map feature.
-  external String color;
-
-  /// The glyph image for the feature.
-  external MapFeatureAnnotationGlyphImage glyphImage;
-
-  /// The glyph image for the selected feature.
-  external MapFeatureAnnotationGlyphImage selectedGlyphImage;
-
-  /// Fetches the place object associated with the map feature.
-  external double fetchPlace(JSAny callback);
 }
 
 /// An object that describes map feature annotation images.
@@ -1687,7 +1778,7 @@ extension type ItemCollection._(JSObject _) implements JSObject {
   external JSAny items;
 }
 
-/// A place object that returns from a geocoder lookup, reverse lookup, or a fetch request for points of interest.
+/// A place object that returns from a geocoder lookup, a reverse lookup, or a fetch request for points of interest.
 extension type Place._(JSObject _) implements JSObject {
   external Place(
       {String name,
@@ -1706,7 +1797,9 @@ extension type Place._(JSObject _) implements JSObject {
       String country,
       String countryCode,
       Coordinate coordinate,
-      CoordinateRegion region});
+      CoordinateRegion region,
+      String id,
+      String alternateIds});
 
   /// The name of the place.
   external String name;
@@ -1758,6 +1851,69 @@ extension type Place._(JSObject _) implements JSObject {
 
   /// The geographic region associated with the place.
   external CoordinateRegion region;
+
+  /// The Place ID referencing a feature.
+  external String id;
+
+  /// A list of alternate Place IDs referencing a feature.
+  external String alternateIds;
+}
+
+/// An object that provides the ability to look up place information for a specified Place ID.
+extension type PlaceLookup._(JSObject _) implements JSObject {
+  /// Creates a place lookup with a set of options.
+  external PlaceLookup(PlaceLookupOptions? options);
+
+  /// Obtains a place using its identifier.
+  external void getPlace(
+      String id, JSFunction callback, PlaceLookupOptions? options);
+}
+
+/// The options for creating a place lookup.
+extension type PlaceLookupOptions._(JSObject _) implements JSObject {
+  external PlaceLookupOptions({String language});
+
+  /// The language code for a place lookup.
+  external String language;
+}
+
+/// The options for selection accessories.
+extension type PlaceSelectionAccessoryOptions._(JSObject _)
+    implements JSObject {
+  external PlaceSelectionAccessoryOptions({Styles style});
+
+  /// The visual presentation for the selection accessory.
+  external Styles style;
+}
+
+/// An interactive view that displays information about a place.
+extension type PlaceDetail._(JSObject _) implements JSObject {
+  /// A representation of a place detail.
+  external PlaceDetail(JSAny place, PlaceDatailOptions? options);
+
+  /// The color scheme when displaying a place detail.
+  external ColorSchemes colorScheme;
+
+  /// A Boolean value that indicates whether to display the map in the place detail.
+  external bool displaysMap;
+
+  /// The place detail’s DOM element.
+  external web.Element element;
+
+  /// The place that the place detail displays.
+  external JSAny place;
+
+  /// Terminates a place detail.
+  external void destroy();
+}
+
+/// The accessory that conveys information about a place associated with an annotation.
+extension type PlaceSelectionAccessory._(JSObject _) implements JSObject {
+  /// Creates a new place selection accessory.
+  external PlaceSelectionAccessory(PlaceSelectionAccessoryOptions? options);
+
+  /// The visual appearance of the place selection accessory.
+  external Styles style;
 }
 
 /// An object representing the latitude and longitude for a point on the Earth’s surface.

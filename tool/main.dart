@@ -75,9 +75,7 @@ Future<void> parse(JSRoot root, Member member, List children) async {
       case 'collection':
         await parse(root, member, child['children']);
       case 'enum':
-        if (!root.enums.contains(title)) {
-          root.enums.add(title);
-        }
+        root.addEnum(title);
       case 'class' || 'struct':
         print(title);
         final json = await loadPath('$path.json');
@@ -97,12 +95,7 @@ Future<void> parse(JSRoot root, Member member, List children) async {
           jsclass.parent =
               parentJson['metadata']['title'].replaceAll('mapkit.', '');
         }
-        final sameobj = root.classes.cast<JSClass?>().firstWhere(
-            (element) => element?.name == title,
-            orElse: () => null);
-        if (sameobj == null) {
-          root.classes.add(jsclass);
-        }
+        root.addClass(title, jsclass);
         await parse(root, jsclass, child['children']);
       default:
     }
